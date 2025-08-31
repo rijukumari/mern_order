@@ -97,7 +97,7 @@ function Login() {
 
           <p className="font-semibold text-gray-900 text-center justify-center py-3">
             Don't have an account?{" "}
-            <Link to={"/signup"} className="text-[#FEAF00] font-semibold">
+            <Link to={"/singup"} className="text-[#FEAF00] font-semibold">
               Register Here
             </Link>
           </p>
