@@ -1,11 +1,21 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 
+
+
 export const register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
-    const image_filename = `${req.file.filename}`;
+
+    if (!firstName || !lastName || !email || !password) {
+      return res.status(400).json({ message: "All fields are required", success: false });
+    }
+
+    // Agar file aayi hai to use karo, warna null/empty string store karo
+    const image_filename = req.file ? req.file.filename : null;
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await User.create({
       firstName,
       lastName,
@@ -13,13 +23,19 @@ export const register = async (req, res) => {
       password: hashedPassword,
       image: image_filename,
     });
-    return res
-      .status(201)
-      .json({ message: "User created successfully", success: true, user });
+
+    return res.status(201).json({
+      message: "User created successfully",
+      success: true,
+      user,
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Internal serval error", success: false });
+    console.error("❌ Signup error:", error.message);
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+      error: error.message,
+    });
   }
 };
 
