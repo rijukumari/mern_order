@@ -13,7 +13,11 @@ const PORT = process.env.PORT || 2033;  // 👈 yahan sirf number hoga
 const FRONTEND_URL = process.env.VITE_FRONTEND_URL || "http://localhost:5173";
 
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: [
+    FRONTEND_URL,
+    "https://mern-order-5.onrender.com"
+
+  ],
   credentials: true,
 }));
 
